@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. See LICENSE.TXT file in the project root for full license information. -->
+
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="VMSetup" Language="1033" Version="1.0.0.0" Manufacturer="vaik" UpgradeCode="cdb4c78c-f321-4f29-8b7b-0d5224a43565">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate />
+
+    <Feature Id="ProductFeature" Title="VMSetup" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+		</Feature>
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="_INSTALLFOLDER" Name="HuaWeiVM" />
+			</Directory>
+		</Directory>
+    <Property Id="WIXUI_INSTALLDIR" Value="_INSTALLFOLDER" />
+    <UIRef Id="WixUI_InstallDir" />
+	</Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="ProductComponents" Directory="_INSTALLFOLDER">
+			<!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
+			<Component Id="ProductComponent" Guid="cdb4c78c-f321-4f2c-8b7b-0d5224a43565">
+				<!-- TODO: Insert files, registry keys, and other resources here. -->
+        <File Id="StaffNumbertxt" src="File/StaffNumber.txt"></File>
+        <File Id="Windows7x64vmx" src="File/Windows 7 x64.vmx"></File>
+			 </Component>
+		</ComponentGroup>
+	</Fragment>
+
+</Wix>
