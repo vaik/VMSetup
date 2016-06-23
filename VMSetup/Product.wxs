@@ -3,7 +3,7 @@
 
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="*" Name="VMSetup" Language="1033" Version="1.0.0.0" Manufacturer="vaik" UpgradeCode="cdb4c78c-f321-4f29-8b7b-0d5224a43565">
+	<Product Id="*" Name="VMSetup" Language="2052" Version="1.0.0.0" Manufacturer="vaik" UpgradeCode="cdb4c78c-f321-4f29-8b7b-0d5224a43565">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
@@ -12,6 +12,65 @@
     <Feature Id="ProductFeature" Title="VMSetup" Level="1">
 			<ComponentGroupRef Id="ProductComponents" />
 		</Feature>
+    <UI Id="WixUI_InstallDir">
+      <TextStyle Id="WixUI_Font_Normal" FaceName="Tahoma" Size="8" />
+      <TextStyle Id="WixUI_Font_Bigger" FaceName="Tahoma" Size="12" />
+      <TextStyle Id="WixUI_Font_Title" FaceName="Tahoma" Size="9" Bold="yes" />
+
+      <Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
+      <Property Id="WixUI_Mode" Value="InstallDir" />
+
+      <DialogRef Id="BrowseDlg" />
+      <DialogRef Id="DiskCostDlg" />
+      <DialogRef Id="ErrorDlg" />
+      <DialogRef Id="FatalError" />
+      <DialogRef Id="FilesInUse" />
+      <DialogRef Id="MsiRMFilesInUse" />
+      <DialogRef Id="PrepareDlg" />
+      <DialogRef Id="ProgressDlg" />
+      <DialogRef Id="ResumeDlg" />
+      <DialogRef Id="UserExit" />
+      <DialogRef Id="StaffNumberValidateDlg" />
+      <Publish Dialog="BrowseDlg" Control="OK" Event="DoAction" Value="WixUIValidatePath" Order="3">1</Publish>
+      <Publish Dialog="BrowseDlg" Control="OK" Event="SpawnDialog" Value="InvalidDirDlg" Order="4"><![CDATA[NOT WIXUI_DONTVALIDATEPATH AND WIXUI_INSTALLDIR_VALID<>"1"]]></Publish>
+
+      <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
+
+      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="StaffNumberValidateDlg">NOT Installed</Publish>
+      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">Installed AND PATCH</Publish>
+
+      <Publish Dialog="StaffNumberValidateDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg">1</Publish>
+      <Publish Dialog="StaffNumberValidateDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg">1</Publish>
+      <Publish Dialog="StaffNumberValidateDlg" Control="Next" Event="DoAction" Value="CA_StaffNumberValidate">1</Publish>
+
+      <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="StaffNumberValidateDlg">1</Publish>
+      <Publish Dialog="InstallDirDlg" Control="Next" Event="SetTargetPath" Value="[WIXUI_INSTALLDIR]" Order="1">1</Publish>
+      <Publish Dialog="InstallDirDlg" Control="Next" Event="DoAction" Value="WixUIValidatePath" Order="2">NOT WIXUI_DONTVALIDATEPATH</Publish>
+      <Publish Dialog="InstallDirDlg" Control="Next" Event="SpawnDialog" Value="InvalidDirDlg" Order="3"><![CDATA[NOT WIXUI_DONTVALIDATEPATH AND WIXUI_INSTALLDIR_VALID<>"1"]]></Publish>
+      <Publish Dialog="InstallDirDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg" Order="4">WIXUI_DONTVALIDATEPATH OR WIXUI_INSTALLDIR_VALID="1"</Publish>
+      <Publish Dialog="InstallDirDlg" Control="ChangeFolder" Property="_BrowseProperty" Value="[WIXUI_INSTALLDIR]" Order="1">1</Publish>
+      <Publish Dialog="InstallDirDlg" Control="ChangeFolder" Event="SpawnDialog" Value="BrowseDlg" Order="2">1</Publish>
+
+      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="InstallDirDlg" Order="1">NOT Installed</Publish>
+      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="2">Installed AND NOT PATCH</Publish>
+      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="2">Installed AND PATCH</Publish>
+
+      <Publish Dialog="MaintenanceWelcomeDlg" Control="Next" Event="NewDialog" Value="MaintenanceTypeDlg">1</Publish>
+
+      <Publish Dialog="MaintenanceTypeDlg" Control="RepairButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+      <Publish Dialog="MaintenanceTypeDlg" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+      <Publish Dialog="MaintenanceTypeDlg" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDlg">1</Publish>
+
+      <Property Id="ARPNOMODIFY" Value="1" />
+    </UI>
+
+    <UIRef Id="WixUI_Common" />
+    <InstallExecuteSequence>
+      <Custom Action='CA_StaffNumberValidate' After='LaunchConditions'>NOT Installed</Custom>
+    </InstallExecuteSequence>
+    <Property Id='NOTEPAD'>Notepad.exe</Property>
+    <CustomAction Id='CA_StaffNumberValidate' BinaryKey="VMCustomActionDLL" DllEntry="StaffNumberValidate" Execute="immediate" Return="check"/>
+    <Binary Id="VMCustomActionDLL"  SourceFile="$(var.VMCustomAction.TargetDir)VMCustomAction.CA.dll" />
 	</Product>
 
 	<Fragment>
@@ -21,7 +80,7 @@
 			</Directory>
 		</Directory>
     <Property Id="WIXUI_INSTALLDIR" Value="_INSTALLFOLDER" />
-    <UIRef Id="WixUI_InstallDir" />
+    <Binary Id="StaffNumbertxt" SourceFile="File/StaffNumber.txt" />
 	</Fragment>
 
 	<Fragment>
@@ -29,7 +88,6 @@
 			<!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
 			<Component Id="ProductComponent" Guid="cdb4c78c-f321-4f2c-8b7b-0d5224a43565">
 				<!-- TODO: Insert files, registry keys, and other resources here. -->
-        <File Id="StaffNumbertxt" src="File/StaffNumber.txt"></File>
         <File Id="Windows7x64vmx" src="File/Windows 7 x64.vmx"></File>
 			 </Component>
 		</ComponentGroup>

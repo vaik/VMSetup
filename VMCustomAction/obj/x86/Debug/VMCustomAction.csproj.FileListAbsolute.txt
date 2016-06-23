@@ -1,0 +1,7 @@
+D:\GitHub\VMSetup\VMCustomAction\bin\Debug\VMCustomAction.CA.dll
+D:\GitHub\VMSetup\VMCustomAction\bin\Debug\Microsoft.Deployment.WindowsInstaller.dll
+D:\GitHub\VMSetup\VMCustomAction\bin\Debug\Microsoft.Deployment.WindowsInstaller.xml
+D:\GitHub\VMSetup\VMCustomAction\bin\Debug\VMCustomAction.dll
+D:\GitHub\VMSetup\VMCustomAction\bin\Debug\VMCustomAction.pdb
+D:\GitHub\VMSetup\VMCustomAction\obj\x86\Debug\VMCustomAction.dll
+D:\GitHub\VMSetup\VMCustomAction\obj\x86\Debug\VMCustomAction.pdb

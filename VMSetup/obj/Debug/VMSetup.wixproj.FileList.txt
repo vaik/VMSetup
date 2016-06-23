@@ -5,3 +5,4 @@ obj\Debug\VMSetup.wixproj.BindContentsFileListnull.txt
 obj\Debug\VMSetup.wixproj.BindOutputsFileListnull.txt
 obj\Debug\VMSetup.wixproj.BindBuiltOutputsFileListnull.txt
 D:\GitHub\VMSetup\VMSetup\bin\Debug\cab1.cab
+obj\Debug\StaffNumberValidateDlg.wixobj
