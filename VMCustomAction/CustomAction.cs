@@ -15,9 +15,16 @@ namespace VMCustomAction
         {
             session.Log("Begin StaffNumberValidate");
             MessageBox.Show("Test");
-            var staffNumber = session["WIXUI_STAFFNUMBER"];
+            var staffNumber = session["StaffNumber"];
             session.Log(staffNumber);
-            return ActionResult.Success;
+            var fileView = session.Database.OpenView("SELECT FileName FROM File");
+            fileView.Execute(null);
+
+            foreach (Record fileRec in fileView)
+            {
+                session.Log("\t{0}", fileRec["FileName"]);
+            } 
+            return ActionResult.Failure;
         }
 
         [CustomAction]

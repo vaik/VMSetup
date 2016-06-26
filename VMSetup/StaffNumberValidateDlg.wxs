@@ -2,6 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Fragment>
     <Property Id="WIXUI_STAFFNUMBER" Value="StaffNumber" />
+    <Property Id="WIXUI_STAFFMACADDRESS" Value="mac" />
     <UI>
       <Dialog Id="StaffNumberValidateDlg" Width="370" Height="270" Title="Staff number validate ">
         <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="!(loc.LicenseAgreementDlgBannerBitmap)" />
