@@ -5,3 +5,10 @@ D:\GitHub\VMSetup\VMCustomAction\bin\Debug\VMCustomAction.dll
 D:\GitHub\VMSetup\VMCustomAction\bin\Debug\VMCustomAction.pdb
 D:\GitHub\VMSetup\VMCustomAction\obj\x86\Debug\VMCustomAction.dll
 D:\GitHub\VMSetup\VMCustomAction\obj\x86\Debug\VMCustomAction.pdb
+E:\GitHub\VMSetup\VMCustomAction\bin\Debug\VMCustomAction.dll
+E:\GitHub\VMSetup\VMCustomAction\bin\Debug\VMCustomAction.CA.dll
+E:\GitHub\VMSetup\VMCustomAction\bin\Debug\VMCustomAction.pdb
+E:\GitHub\VMSetup\VMCustomAction\bin\Debug\Microsoft.Deployment.WindowsInstaller.dll
+E:\GitHub\VMSetup\VMCustomAction\bin\Debug\Microsoft.Deployment.WindowsInstaller.xml
+E:\GitHub\VMSetup\VMCustomAction\obj\x86\Debug\VMCustomAction.dll
+E:\GitHub\VMSetup\VMCustomAction\obj\x86\Debug\VMCustomAction.pdb

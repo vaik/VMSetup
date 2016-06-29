@@ -1,3 +1,0 @@
-D:\GitHub\VMSetup\VMSetup\bin\Debug\cab1.cab
-D:\GitHub\VMSetup\VMSetup\bin\Debug\VMSetup.msi
-D:\GitHub\VMSetup\VMSetup\bin\Debug\VMSetup.wixpdb
