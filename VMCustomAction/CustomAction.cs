@@ -20,10 +20,19 @@ namespace VMCustomAction
             var fileView = session.Database.OpenView("SELECT * FROM Binary WHERE Name = 'StaffNumbertxt'");
             fileView.Execute(null);
 
-            foreach (Record fileRec in fileView)
+            Record r = fileView.Fetch();
+            int datalen = r.GetDataSize("Data");
+            System.IO.Stream strm = r.GetStream("Data");
+            byte[] rawData = new byte[datalen];
+            int res = strm.Read(rawData, 0, datalen);
+            strm.Close();
+
+            String s = System.Text.Encoding.UTF8.GetString(rawData);
+            if (s.Length > 0 && s[0] == '\uFEFF')
             {
-                session.Log("\t{0}", fileRec["FileName"]);
+                s = s.Substring(1);
             }
+
             session["PIDACCEPTED"] = "0";
             return ActionResult.Success;
         }
