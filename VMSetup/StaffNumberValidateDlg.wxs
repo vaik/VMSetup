@@ -17,6 +17,7 @@
           <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
         </Control>
       </Dialog>
+     
     </UI>
   </Fragment>
 </Wix>

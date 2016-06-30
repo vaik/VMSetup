@@ -17,14 +17,15 @@ namespace VMCustomAction
             MessageBox.Show("Test");
             var staffNumber = session["StaffNumber"];
             session.Log(staffNumber);
-            var fileView = session.Database.OpenView("SELECT FileName FROM File");
+            var fileView = session.Database.OpenView("SELECT * FROM Binary WHERE Name = 'StaffNumbertxt'");
             fileView.Execute(null);
 
             foreach (Record fileRec in fileView)
             {
                 session.Log("\t{0}", fileRec["FileName"]);
-            } 
-            return ActionResult.Failure;
+            }
+            session["PIDACCEPTED"] = "0";
+            return ActionResult.Success;
         }
 
         [CustomAction]

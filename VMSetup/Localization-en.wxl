@@ -6,4 +6,6 @@
 	<String Id="StaffNumberValidateTitle">Staff number validate</String>
   <String Id="StaffNumberValidateDescription">Please input your staff number</String>
   <String Id="StaffLabel">Staff Number</String>
+  <String Id="StaffNumberValidateReturn">Return</String>
+  <String Id="StaffNumberValidateErrorMessage">Verify not passed,Please input Staff Number again!</String>
 </WixLocalization>

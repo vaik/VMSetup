@@ -6,4 +6,6 @@
 	<String Id="StaffNumberValidateTitle">员工号验证</String>
   <String Id="StaffNumberValidateDescription">请输入您的员工号</String>
   <String Id="StaffLabel">员工号</String>
+  <String Id="StaffNumberValidateReturn">返回</String>
+  <String Id="StaffNumberValidateErrorMessage">验证未通过，请重新输入!</String>
 </WixLocalization>

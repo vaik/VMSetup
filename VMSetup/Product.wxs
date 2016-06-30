@@ -40,8 +40,9 @@
       <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">Installed AND PATCH</Publish>
 
       <Publish Dialog="StaffNumberValidateDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg">1</Publish>  
-      <Publish Dialog="StaffNumberValidateDlg" Control="Next" Event="DoAction" Value="CA_StaffNumberValidate">1</Publish>
-      <Publish Dialog="StaffNumberValidateDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg">1</Publish>
+      <Publish Dialog="StaffNumberValidateDlg" Control="Next" Event="DoAction" Value="CA_StaffNumberValidate" Order="1">1</Publish>
+      <Publish Dialog="StaffNumberValidateDlg" Control="Next" Event="SpawnDialog" Value="InvalidPidDlg" Order="2">PIDACCEPTED  = "0"</Publish>
+      <Publish Dialog="StaffNumberValidateDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg"  Order="3">PIDACCEPTED = "1"</Publish>
 
       <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="StaffNumberValidateDlg">1</Publish>
       <Publish Dialog="InstallDirDlg" Control="Next" Event="SetTargetPath" Value="[WIXUI_INSTALLDIR]" Order="1">1</Publish>
@@ -60,15 +61,21 @@
       <Publish Dialog="MaintenanceTypeDlg" Control="RepairButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
       <Publish Dialog="MaintenanceTypeDlg" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
       <Publish Dialog="MaintenanceTypeDlg" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDlg">1</Publish>
-
+      <Property Id="PIDACCEPTED" Value="1" />
       <Property Id="ARPNOMODIFY" Value="1" />
+      <Dialog Id="InvalidPidDlg" Width="260" Height="85" Title="!(loc.StaffNumberValidateTitle)" NoMinimize="yes">
+        <Control Id="Return" Type="PushButton" X="100" Y="57" Width="56" Height="17" Default="yes" Cancel="yes" Text="!(loc.StaffNumberValidateReturn)">
+          <Publish Event="EndDialog" Value="Return">1</Publish>
+        </Control>
+        <Control Id="Text" Type="Text" X="48" Y="15" Width="194" Height="30" TabSkip="no">
+          <Text>
+            !(loc.StaffNumberValidateErrorMessage)
+          </Text>
+        </Control>
+      </Dialog>
     </UI>
 
     <UIRef Id="WixUI_Common" />
-    <InstallExecuteSequence>
-      <Custom Action='CA_StaffNumberValidate' After='LaunchConditions'>NOT Installed</Custom>
-    </InstallExecuteSequence>
-    <Property Id='NOTEPAD'>Notepad.exe</Property>
     <CustomAction Id='CA_StaffNumberValidate' BinaryKey="VMCustomActionDLL" DllEntry="StaffNumberValidate" Execute="immediate" Return="check"/>
     <Binary Id="VMCustomActionDLL"  SourceFile="$(var.VMCustomAction.TargetDir)VMCustomAction.CA.dll" />
 	</Product>
