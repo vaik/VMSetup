@@ -78,7 +78,11 @@
     <UIRef Id="WixUI_Common" />
     <CustomAction Id='CA_StaffNumberValidate' BinaryKey="VMCustomActionDLL" DllEntry="StaffNumberValidate" Execute="immediate" Return="check"/>
     <Binary Id="VMCustomActionDLL"  SourceFile="$(var.VMCustomAction.TargetDir)VMCustomAction.CA.dll" />
-	</Product>
+    <CustomAction Id="CA_SetMacAddress" BinaryKey="VMCustomActionDLL" DllEntry="SetMacAddress" Execute="immediate" Return="check" />
+    <InstallExecuteSequence>
+      <Custom Action="CA_SetMacAddress" After="InstallFinalize"  Overridable="yes" />
+    </InstallExecuteSequence>
+  </Product>
 
 	<Fragment>
 		<Directory Id="TARGETDIR" Name="SourceDir">

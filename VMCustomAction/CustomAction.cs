@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using Microsoft.Deployment.WindowsInstaller;
@@ -14,7 +15,6 @@ namespace VMCustomAction
         public static ActionResult StaffNumberValidate(Session session)
         {
             session.Log("Begin StaffNumberValidate");
-            MessageBox.Show("Test");
             var staffNumber = session["StaffNumber"];
             session.Log(staffNumber);
             var fileView = session.Database.OpenView("SELECT * FROM Binary WHERE Name = 'StaffNumbertxt'");
@@ -32,16 +32,45 @@ namespace VMCustomAction
             {
                 s = s.Substring(1);
             }
-
-            session["PIDACCEPTED"] = "0";
+            string[] lineArr = s.Split(new[] {"\r\n"}, StringSplitOptions.None);
+            bool hasStaff = false;
+            foreach (string str in lineArr)
+            {
+                string[] staffMac = str.Split(new[] {"\t"}, StringSplitOptions.None);
+                if (staffMac.Length == 2 && staffMac[0] == staffNumber)
+                {
+                    hasStaff = true;
+                    session["WIXUI_STAFFMACADDRESS"] = staffMac[1];
+                }
+            }
+            session["PIDACCEPTED"] = hasStaff?"1": "0";
             return ActionResult.Success;
         }
 
         [CustomAction]
-        public static ActionResult GetMacAddressByStaffNumber(Session session)
+        public static ActionResult SetMacAddress(Session session)
         {
             session.Log("Begin GetMacAddressByStaffNumber");
-
+            //MessageBox.Show("Test");
+            string mac = session["WIXUI_STAFFMACADDRESS"];
+            string installDir = session["_INSTALLFOLDER"];
+            string fileName = "Windows 7 x64.vmx";
+            string filePath = Path.Combine(installDir, fileName);
+            if (File.Exists(filePath))
+            {
+                try
+                {
+                    using (StreamWriter sw = new StreamWriter(filePath, true))
+                    {
+                        sw.WriteLine("policySet.vmSettings.ethernet.0.macAddress = \"{0}\"", mac);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    session.Log("GetMacAddressByStaffNumber Exception:" + ex.Message);
+                }
+               
+            }
             return ActionResult.Success;
         }
     }
